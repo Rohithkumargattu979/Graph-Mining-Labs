@@ -19,7 +19,8 @@ int stringtoint(string s){
 // the given file contains edges in space-sperated format
 void readGraph(vector<vector<int> >&edges){
     string line;
-    ifstream myfile("graph-1.txt");
+    string file = "graph-1.txt";
+    ifstream myfile(file);
     if(myfile.is_open()){
         while(getline(myfile,line)){
             int n = line.length();
@@ -46,6 +47,9 @@ void readGraph(vector<vector<int> >&edges){
             sub.clear();
 
         }
+    }
+    else{
+        cout<<"Cannot open the file "<<file<<endl;
     }
 }
 
