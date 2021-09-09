@@ -48,7 +48,7 @@ void readGraph(vector<vector<int> >&edges){
         }
     }
     else{
-        cout<<"Cannot open the file"<<file<<endl;
+        cout<<"Cannot open the file "<<file<<endl;
     }
 }
 
