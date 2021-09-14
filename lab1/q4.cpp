@@ -12,7 +12,7 @@ int stringtoint(string s){
 string file = "graph-1.txt";
 // function that reads the .txt file which contains edge list and stores the graph in a 2-D Vector
 // the given file contains edges in space-sperated format
-void readGraph(vector<pair<int,int>> &edges){
+void readGraph(vector<pair<int,int> > &edges){
     string line;
     ifstream myfile (file);
     if (myfile.is_open()){
