@@ -55,17 +55,40 @@ void addEdge(map<int,vector<int> >& adjList, vector<pair<int,int> >& edges){
         adjList[edges[i].second].push_back(edges[i].first);
     }
 }
+
+
 // dfs function that computes the largest connected component in the given graph
 void dfs(map<int,vector<int>>& adjList, vector<bool>& visited, int source, int &count){
-  count++;
-  visited[source] = true;
-  vector<int>:: iterator it;
-  for(it = adjList[source].begin(); it != adjList[source].end(); it++){
-    if(!visited[*it]){
-      dfs(adjList,visited,*it,count);
+  // Initially mark all vertices as not visited
+ 
+    // Create a stack for DFS
+    stack<int> stack;
+ 
+    // Push the current source node.
+    stack.push(source);
+ 
+    while (!stack.empty()){
+        // Pop a vertex from stack and print it
+        int s = stack.top();
+        stack.pop();
+ 
+        // Stack may contain same vertex twice. So
+        // we need to print the popped item only
+        // if it is not visited.
+        if (!visited[s]){
+            count++; // increase the size of the component
+            visited[s] = true;
+        }
+ 
+        // Get all adjacent vertices of the popped vertex s
+        // If a adjacent has not been visited, then push it
+        // to the stack.
+        for (auto i = adjList[s].begin(); i != adjList[s].end(); ++i)
+            if (!visited[*i])
+                stack.push(*i);
     }
-  }
 }
+
 int main(){
     vector<pair<int,int> > edges;
     map<int,vector<int> > adjList;
