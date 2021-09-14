@@ -25,35 +25,36 @@ void add_edges( map<int,vector<int>> &graph_adj_list,vector<pair<int,int>> &edge
 
 }
 
+string file = "graph-1.txt";
 void read_graph(vector<pair<int,int>> &edges){
   string line;
-  ifstream myfile ("graph-1.txt");
+  ifstream myfile (file);
   if (myfile.is_open()){
     while ( getline (myfile,line) ){
-         stringstream iss(line);
-         string word;
-         int u,v;
-         int count = 1;
-         while(iss>>word) {
-           if(count == 1){
-               u = stringtoint(word); 
-               count++; 
-           }
-           else if(count == 2){
-               v = stringtoint(word); 
-               count++;
-           }  
-           else{
-             break;
-           }
-         }
+      stringstream iss(line);
+      string word;
+      int u,v;
+      int count = 1;
+      while(iss>>word) {
+        if(count == 1){
+          u = stringtoint(word); 
+          count++; 
+        }
+        else if(count == 2){
+          v = stringtoint(word); 
+          count++;
+        }  
+        else{
+          break;
+        }
+      }
 
-         edges.push_back(make_pair(u,v));
+      edges.push_back(make_pair(u,v));
     }
     myfile.close();
   }
 
-  else cout << "Unable to open file"; 
+  else cout << "Unable to open file "<<file; 
     
 }
 
@@ -61,39 +62,38 @@ void initialize_CSR(CSR* CSR_graph,vector<pair<int,int>> &edges,map<int,vector<i
  
   for(int i=0;i<2*edges.size();i++){
     CSR_graph->A.push_back(1);
-   }
+  }
    
    CSR_graph->IA.push_back(0);
  
    for(auto x : graph_adj_list){
-      int u = x.first;
-      vector<int> v = x.second;
-      for(int j=0;j<v.size();j++)
-      CSR_graph->JA.push_back(v[j]);
-      CSR_graph->IA.push_back(v.size());
+    int u = x.first;
+    vector<int> v = x.second;
+    for(int j=0;j<v.size();j++)
+    CSR_graph->JA.push_back(v[j]);
+    CSR_graph->IA.push_back(v.size());
   }
 
 }
 
 void plot_graph(CSR* CSR_graph,map<int,vector<int>> &graph_adj_list){
-          int n = (int)graph_adj_list.size(); 
-          //int n = 100;
-          RGBABitmapImageReference *imageReference = CreateRGBABitmapImageReference();
-          double xsa[n];
-	  double ysa[n];
-          int i = 0;
-          for(auto x:graph_adj_list){
-              xsa[i] = x.first;
-			  ysa[i] = x.second.size();
- 			  i++;
- 			  //if(i==100)break;
-          }
-	  vector<double> xs(xsa, xsa+sizeof(xsa)/sizeof(double));
-	  vector<double> ys(ysa, ysa+sizeof(ysa)/sizeof(double));
-	  DrawScatterPlot(imageReference, 600, 400, &xs, &ys);
-	  vector<double> *pngdata = ConvertToPNG(imageReference->image);
-	  WriteToFile(pngdata, "example1.png");
-	  DeleteImage(imageReference->image);
+  int n = (int)graph_adj_list.size(); 
+  //int n = 100;
+  RGBABitmapImageReference *imageReference = CreateRGBABitmapImageReference();
+  double xsa[n];
+  double ysa[n];
+  int i = 0;
+  for(auto x:graph_adj_list){
+    xsa[i] = x.first;
+    ysa[i] = x.second.size();
+    i++;
+  }
+  vector<double> xs(xsa, xsa+sizeof(xsa)/sizeof(double));
+  vector<double> ys(ysa, ysa+sizeof(ysa)/sizeof(double));
+  DrawScatterPlot(imageReference, 600, 400, &xs, &ys);
+  vector<double> *pngdata = ConvertToPNG(imageReference->image);
+  WriteToFile(pngdata, "example1.png");
+  DeleteImage(imageReference->image);
 
 }
 
