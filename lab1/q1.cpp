@@ -20,7 +20,7 @@ int stringtoint(string s){
 void readGraph(vector<vector<int> >&edges){
     string line;
     string file = "graph-1.txt";
-    ifstream myfile(file);
+    ifstream myfile("graph-1.txt");
     if(myfile.is_open()){
         while(getline(myfile,line)){
             int n = line.length();

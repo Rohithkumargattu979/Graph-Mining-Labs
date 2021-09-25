@@ -15,7 +15,7 @@ int stringtoint(string s){
     return ans;
 }
  
-void add_edges( map<int,vector<int>> &graph_adj_list,vector<pair<int,int>> &edges,int &n){
+void add_edges( map<int,vector<int> > &graph_adj_list,vector<pair<int,int> > &edges,int &n){
     
     for(auto x : edges){
          graph_adj_list[x.first].push_back(x.second);
@@ -26,7 +26,7 @@ void add_edges( map<int,vector<int>> &graph_adj_list,vector<pair<int,int>> &edge
 }
 
 string file = "graph-1.txt";
-void read_graph(vector<pair<int,int>> &edges){
+void read_graph(vector<pair<int,int> > &edges){
   string line;
   ifstream myfile (file);
   if (myfile.is_open()){
@@ -58,7 +58,7 @@ void read_graph(vector<pair<int,int>> &edges){
     
 }
 
-void initialize_CSR(CSR* CSR_graph,vector<pair<int,int>> &edges,map<int,vector<int>> &graph_adj_list){
+void initialize_CSR(CSR* CSR_graph,vector<pair<int,int> > &edges,map<int,vector<int> > &graph_adj_list){
  
   for(int i=0;i<2*edges.size();i++){
     CSR_graph->A.push_back(1);
