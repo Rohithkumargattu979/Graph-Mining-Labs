@@ -12,10 +12,10 @@ int stringtoint(string s){
 
 // function that reads the .txt file which contains edge list and stores the graph in a 2-D Vector
 // the given file contains edges in space-sperated format
+string file = "graph-2.txt";
 void readGraph(vector<vector<int> >&edges){
     string line;
-    string file = "graph-1.txt";
-    ifstream myfile("graph-1.txt");
+    ifstream myfile(file);
     if(myfile.is_open()){
         while(getline(myfile,line)){
             int n = line.length();
@@ -56,15 +56,14 @@ void addEdge(map<int,vector<int> >& adjList, vector<vector<int> >& edges){
     }
 }
 
-bool DFSUtil(int v, vector<bool>& visisted, vector<int>& &vDegree, int k, map<int,vector<int> >& adjList){
+bool DFSUtil(int v, vector<bool>& visited, vector<int> &vDegree, int k, map<int,vector<int> >& adjList){
     visited[v] = true;
-    auto it;
-    for(it = adjList[v].begin(); it != adjList[v].end(); it++){
+    for(auto it: adjList[v]){
         if(vDegree[v] < k){
-            vDegree[*it]--;
+            vDegree[it]--;
         }
-        if(!visited[*it]){
-            DFSUtil(*it,visited,vDegree,k);
+        if(!visited[it]){
+            DFSUtil(it,visited,vDegree,k, adjList);
         }
     }
     return (vDegree[v] < k);
@@ -100,14 +99,13 @@ void printKCores(int k, int V, map<int,vector<int> >& adjList, int &maximumCore)
             cout<<"\n["<<v<<"]";
         }
 
-
-        auto it;
-        for(it = adj[v].begin(); it != adj[v].end(); it++){
-            if(vDegree[*it] >= k){
-                cout<<"->"<<*it;
+        for(auto it: adjList[v]){
+            if(vDegree[it] >= k){
+                cout<<"->"<<it;
             }
         }
     }
+    cout<<endl;
 }
 int main(){
     vector<vector<int> > edges;
@@ -115,8 +113,8 @@ int main(){
     readGraph(edges);
     addEdge(adjList,edges);
     int V = adjList.size();
-    cout<<V<<endl;
     int k = 3;
     int maximumCore = INT_MIN;
     printKCores(k,V,adjList,maximumCore);
+    cout<<"Maximum core of given graph "<<file<<" is "<<maximumCore<<endl;
 }
