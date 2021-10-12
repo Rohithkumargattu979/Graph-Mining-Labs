@@ -55,7 +55,7 @@ void addEdge(map<int,vector<int> >& adjList, vector<vector<int> >& edges){
         adjList[edges[i][1]].push_back(edges[i][0]);
     }
 }
-
+map<int,vector<int>> kcores;
 /*
 Modified recursive function to print the DFS starting from v.
 It's return type is bool.
@@ -78,7 +78,7 @@ bool DFS(int v, vector<bool>& visited, vector<int> &vDegree, int k, map<int,vect
     // return true if degree of v is less than k
     return (vDegree[v] < k);
 }
-void printKCores(int k, int V, map<int,vector<int> >& adjList, int &maximumCore){
+void printKCores(int k, int V, map<int,vector<int> >& adjList){
     vector<bool> visited(V,false);
     vector<bool> processed(V,false);
     int mindeg = INT_MAX;
@@ -106,14 +106,12 @@ void printKCores(int k, int V, map<int,vector<int> >& adjList, int &maximumCore)
     cout<<"K-Cores: \n";
     for(int v=0; v<V; v++){
         if(vDegree[v] >=k){
-            if(v >= maximumCore){
-                maximumCore = v;
-            }
             cout<<"\n["<<v<<"]";
         }
 
         for(auto it: adjList[v]){
             if(vDegree[it] >= k){
+                kcores[v].push_back(it);
                 cout<<"->"<<it;
             }
         }
@@ -128,6 +126,9 @@ int main(){
     int V = adjList.size();
     int k = 3; // taking k = 3 and remove all the vertices less than 3
     int maximumCore = INT_MIN;
-    printKCores(k,V,adjList,maximumCore);
+    printKCores(k,V,adjList);
+    for(auto it: kcores){
+        maximumCore = max(maximumCore,(int)it.second.size());
+    }
     cout<<"Maximum core of given graph "<<file<<" is "<<maximumCore<<endl;
 }
